@@ -12,9 +12,6 @@ const Footer = () => {
             <div className='container mx-auto px-5'>
                 <div className='py-10 justify-between gap-10 flex z-20 relative flex-wrap md:flex-nowrap items-start '>
                     <div>
-                        <img src={footerImg} alt='' />
-                    </div>
-                    <div>
                         <h4 className='font-medium text-lg mb-3'>Contact Details</h4>
                         <p className='text-lg font'>
                             <span>Email: </span>
@@ -24,6 +21,9 @@ const Footer = () => {
                             <span>Phone: </span>
                             <a href='tel:+8801000000000'>+8801000000000</a>
                         </p>
+                    </div>
+                    <div>
+                        <img src={footerImg} alt='' />
                     </div>
                     <div>
                         <h4 className='font-medium text-lg mb-3'>Social Media</h4>
