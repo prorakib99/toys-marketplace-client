@@ -2,17 +2,19 @@ import products_bg from '../../../assets/Product-Section/Product-bg.png';
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import Slider from 'react-slick/lib/slider';
 import ProductsCard from '../ProductsCard/ProductsCard';
+import { useEffect, useState } from 'react';
+import Loader from '../../Shared/Loader/Loader';
 
 // Slider Config
 const settings = {
     dots: true,
-    infinite: true,
-    speed: 1500,
+    infinite: false,
+    speed: 500,
     slidesToShow: 4,
     slidesToScroll: 4,
     initialSlide: 0,
     autoplay: true,
-    autoplaySpeed: 3000,
+    autoplaySpeed: 100000,
     cssEase: 'linear',
     pauseOnHover: true,
     appendDots: (dots) => (
@@ -22,7 +24,7 @@ const settings = {
                 padding: '10px'
             }}
         >
-            <ul style={{ margin: '0px' }}> {dots} </ul>
+            <ul style={{ margin: '5px' }}> {dots} </ul>
         </div>
     ),
 
@@ -62,6 +64,43 @@ const settings = {
 };
 
 const CategoryProducts = () => {
+    const [toys, setToys] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isToysLoading, setIsToysLoading] = useState(false);
+
+    const handleCategoryProducts = (categoryID) => {
+        setIsToysLoading(true);
+        fetch(`http://localhost:5000/categories/${categoryID}`)
+            .then((res) => res.json())
+            .then((data) => {
+                setToys(data);
+                setIsToysLoading(false);
+            });
+    };
+
+    useEffect(() => {
+        setIsLoading(true);
+
+        fetch(`http://localhost:5000/categories`)
+            .then((res) => res.json())
+            .then((data) => {
+                setCategories(data);
+                setIsLoading(false);
+            });
+
+        fetch(`http://localhost:5000/categories/1`)
+            .then((res) => res.json())
+            .then((data) => {
+                setToys(data);
+                setIsLoading(false);
+            });
+    }, []);
+
+    if (isLoading) {
+        return <Loader />;
+    }
+
     return (
         <div className='bg-cover bg-no-repeat' style={{ backgroundImage: `url('${products_bg}')` }}>
             <div className='container mx-auto px-5 py-7'>
@@ -80,60 +119,40 @@ const CategoryProducts = () => {
                 <div className='py-5'>
                     <Tabs variant='soft-rounded'>
                         <TabList className='flex flex-wrap items-center !justify-center gap-5'>
-                            <Tab _selected={{ color: 'white', bg: 'pink.500' }}>Cars</Tab>
-                            <Tab _selected={{ color: 'white', bg: 'pink.500' }}>Trucks</Tab>
-                            <Tab _selected={{ color: 'white', bg: 'pink.500' }}>Air Plane</Tab>
-                            <Tab _selected={{ color: 'white', bg: 'pink.500' }}>Bikes</Tab>
+                            {categories.map((category) => (
+                                <>
+                                    <Tab
+                                        key={category._id}
+                                        onClick={() => handleCategoryProducts(category.categoryID)}
+                                        _selected={{ color: 'white', bg: 'pink.500' }}
+                                    >
+                                        {category.category}
+                                    </Tab>
+                                </>
+                            ))}
                         </TabList>
-                        <TabPanels className='py-8'>
-                            {/* Cars Category */}
-                            <TabPanel>
-                                <Slider {...settings}>
-                                    <ProductsCard></ProductsCard>
-                                    <ProductsCard></ProductsCard>
-                                    <ProductsCard></ProductsCard>
-                                    <ProductsCard></ProductsCard>
-                                    <ProductsCard></ProductsCard>
-                                    <ProductsCard></ProductsCard>
-                                </Slider>
-                            </TabPanel>
-                            {/* Trucks Category */}
-                            <TabPanel>
-                                <Slider {...settings}>
-                                    <ProductsCard></ProductsCard>
-                                    <ProductsCard></ProductsCard>
-                                    <ProductsCard></ProductsCard>
-                                    <ProductsCard></ProductsCard>
-                                    <ProductsCard></ProductsCard>
-                                    <ProductsCard></ProductsCard>
-                                    <ProductsCard></ProductsCard>
-                                </Slider>
-                            </TabPanel>
-                            {/* Air Plane Category */}
-                            <TabPanel>
-                                <Slider {...settings}>
-                                    <ProductsCard></ProductsCard>
-                                    <ProductsCard></ProductsCard>
-                                    <ProductsCard></ProductsCard>
-                                    <ProductsCard></ProductsCard>
-                                    <ProductsCard></ProductsCard>
-                                    <ProductsCard></ProductsCard>
-                                    <ProductsCard></ProductsCard>
-                                </Slider>
-                            </TabPanel>
-                            {/* Bikes Category */}
-                            <TabPanel>
-                                <Slider {...settings}>
-                                    <ProductsCard></ProductsCard>
-                                    <ProductsCard></ProductsCard>
-                                    <ProductsCard></ProductsCard>
-                                    <ProductsCard></ProductsCard>
-                                    <ProductsCard></ProductsCard>
-                                    <ProductsCard></ProductsCard>
-                                    <ProductsCard></ProductsCard>
-                                </Slider>
-                            </TabPanel>
-                        </TabPanels>
+                        {isToysLoading ? (
+                            <Loader></Loader>
+                        ) : (
+                            <>
+                                <TabPanels className='py-8'>
+                                    {categories.map((category) => (
+                                        <>
+                                            <TabPanel key={category._id}>
+                                                <Slider {...settings}>
+                                                    {toys.map((toy) => (
+                                                        <ProductsCard
+                                                            key={toy._id}
+                                                            toy={toy}
+                                                        ></ProductsCard>
+                                                    ))}
+                                                </Slider>
+                                            </TabPanel>
+                                        </>
+                                    ))}
+                                </TabPanels>
+                            </>
+                        )}
                     </Tabs>
                 </div>
             </div>
