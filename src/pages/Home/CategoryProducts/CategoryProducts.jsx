@@ -1,9 +1,32 @@
 import products_bg from '../../../assets/Product-Section/Product-bg.png';
-import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import Slider from 'react-slick/lib/slider';
 import ProductsCard from '../ProductsCard/ProductsCard';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Loader from '../../Shared/Loader/Loader';
+import { IoCreateOutline } from 'react-icons/io5';
+import {
+    Button,
+    Input,
+    InputGroup,
+    Modal,
+    ModalBody,
+    ModalCloseButton,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalOverlay,
+    Select,
+    Spinner,
+    Tab,
+    TabList,
+    TabPanel,
+    TabPanels,
+    Tabs,
+    Textarea,
+    useToast,
+    useDisclosure
+} from '@chakra-ui/react';
+import AddToyModal from '../../Shared/AddToyModal/AddToyModal';
 
 // Slider Config
 const settings = {
@@ -131,6 +154,9 @@ const CategoryProducts = () => {
                                 </>
                             ))}
                         </TabList>
+
+                        <AddToyModal></AddToyModal>
+
                         {isToysLoading ? (
                             <Loader></Loader>
                         ) : (
