@@ -1,7 +1,7 @@
-import products_bg from '../../../../assets/Product-Section/Product-bg.png';
+import products_bg from '../../../assets/Product-Section/Product-bg.png';
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import Slider from 'react-slick/lib/slider';
-import ProductsCard from '../../ProductsCard/ProductsCard';
+import ProductsCard from '../ProductsCard/ProductsCard';
 
 // Slider Config
 const settings = {
