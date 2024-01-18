@@ -1,9 +1,9 @@
 import { Spinner } from '@chakra-ui/react';
 import React from 'react';
 
-const Loader = () => {
+const Loader = ({ global }) => {
     return (
-        <div className='text-center my-10'>
+        <div className={global ? 'h-screen flex justify-center items-center' : 'text-center my-10'}>
             <Spinner size='xl' />
         </div>
     );

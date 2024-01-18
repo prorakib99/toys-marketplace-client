@@ -14,13 +14,15 @@ import {
 } from '@chakra-ui/react';
 import { PasswordField } from '../Shared/PasswordField/PasswordField';
 import OAuthButtonGroup from '../Shared/OAuthButtonGroup/OAuthButtonGroup';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { AuthContext } from '../../providers/AuthProvider';
 import { toast } from 'react-toastify';
 
 const Login = () => {
     const { loginUser } = useContext(AuthContext);
+
+    const navigate = useNavigate();
 
     const handleSignIn = (e) => {
         e.preventDefault();
@@ -35,6 +37,7 @@ const Login = () => {
                 const loggedUser = result.user;
                 toast.dismiss(promiseLoading);
                 toast.success(`${loggedUser.email} is Successfully Signed In`);
+                navigate('/');
             })
             .catch((error) => {
                 toast.dismiss(promiseLoading);

@@ -1,29 +1,21 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Header from '../pages/Shared/Header/Header';
 import { Outlet } from 'react-router-dom';
 import Footer from '../pages/Shared/Footer/Footer';
-import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { AuthContext } from '../providers/AuthProvider';
+import Loader from '../pages/Shared/Loader/Loader';
+import { ToastContainer } from 'react-toastify';
 
 const Main = () => {
+    const { loading } = useContext(AuthContext);
+    if (loading) {
+        return <Loader global={true}></Loader>;
+    }
     return (
         <>
-            <ToastContainer
-                position='top-right'
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme='colored'
-            />
-            {/* Same as */}
             <ToastContainer />
             <Header />
-
             <Outlet />
             <Footer />
         </>
