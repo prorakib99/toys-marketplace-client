@@ -3,28 +3,7 @@ import Slider from 'react-slick/lib/slider';
 import ProductsCard from '../ProductsCard/ProductsCard';
 import React, { useEffect, useState } from 'react';
 import Loader from '../../Shared/Loader/Loader';
-import {
-    Button,
-    Input,
-    InputGroup,
-    Modal,
-    ModalBody,
-    ModalCloseButton,
-    ModalContent,
-    ModalFooter,
-    ModalHeader,
-    ModalOverlay,
-    Select,
-    Spinner,
-    Tab,
-    TabList,
-    TabPanel,
-    TabPanels,
-    Tabs,
-    Textarea,
-    useToast,
-    useDisclosure
-} from '@chakra-ui/react';
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import AddToyModal from '../../Shared/AddToyModal/AddToyModal';
 
 // Slider Config

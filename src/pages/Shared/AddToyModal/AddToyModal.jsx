@@ -16,10 +16,11 @@ import {
     Textarea,
     useDisclosure
 } from '@chakra-ui/react';
+import { toast } from 'react-toastify';
 
-const AddToyModal = () => {
+const AddToyModal = ({ addPage }) => {
     const [value, setValue] = useState(null);
-    const { isOpen, onOpen, onClose } = useDisclosure();
+    const { isOpen, onOpen, onClose } = useDisclosure({ defaultIsOpen: addPage });
     const initialRef = React.useRef(null);
     const finalRef = React.useRef(null);
 
@@ -60,13 +61,27 @@ const AddToyModal = () => {
             .then((data) => {
                 if (data.acknowledged) {
                     console.log('succuss');
+                    onClose();
+                    toast.success(`${name} has been Added`);
+                } else {
+                    toast.error('Something Wrong Operation Fail');
                 }
             });
     }
+
+    // if (addPage) {
+    //     return onOpen();
+    // }
     return (
         <>
             {/* Add New Toy */}
-            <div className='text-center md:text-end mt-4 md:mt-0'>
+            <div
+                className={`text-center ${
+                    addPage
+                        ? 'flex justify-center items-center h-[10vh] md:h-[30vh] lg:h-[50vh]'
+                        : 'md:text-end mt-4 md:mt-0'
+                }`}
+            >
                 <Button
                     className="!bg-pink-600 !text-white !text-base !font-medium !font-['Inter'] !leading-normal !rounded-md !px-3 !lg:px-5 !py-2"
                     onClick={onOpen}

@@ -1,9 +1,10 @@
 import React from 'react';
+import AddToyModal from '../Shared/AddToyModal/AddToyModal';
 
 const AddToys = () => {
     return (
         <div>
-            <h2 className='text-5xl'>Add Toys Page</h2>
+            <AddToyModal addPage={true}></AddToyModal>
         </div>
     );
 };
