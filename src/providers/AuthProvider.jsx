@@ -4,6 +4,7 @@ import {
     getAuth,
     onAuthStateChanged,
     signInWithEmailAndPassword,
+    signInWithPopup,
     signOut,
     updateProfile
 } from 'firebase/auth';
@@ -30,6 +31,9 @@ const AuthProvider = ({ children }) => {
             photoURL: photo
         });
     };
+    const loginWithPopup = (Provider) => {
+        return signInWithPopup(auth, Provider);
+    };
     const logOut = () => {
         setLoading(true);
         return signOut(auth);
@@ -40,6 +44,7 @@ const AuthProvider = ({ children }) => {
         loading,
         setLoading,
         loginUser,
+        loginWithPopup,
         createUser,
         userProfile,
         logOut
