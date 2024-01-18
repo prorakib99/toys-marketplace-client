@@ -10,7 +10,9 @@ import {
     useDisclosure,
     Button
 } from '@chakra-ui/react';
-import React from 'react';
+import React, { useContext } from 'react';
+import { AuthContext } from '../../../providers/AuthProvider';
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const OverlayOne = () => (
     <ModalOverlay bg='blackAlpha.300' backdropFilter='blur(10px) hue-rotate(90deg)' />
@@ -19,6 +21,19 @@ const OverlayOne = () => (
 const ProductsCard = ({ toy, shopPage }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [overlay, setOverlay] = React.useState(<OverlayOne />);
+
+    const { user } = useContext(AuthContext);
+    const navigate = useNavigate();
+
+    const handleUser = () => {
+        if (user) {
+            setOverlay(<OverlayOne />);
+            onOpen();
+        } else {
+            console.log('bello');
+            return navigate('/login');
+        }
+    };
 
     const {
         _id,
@@ -73,8 +88,7 @@ const ProductsCard = ({ toy, shopPage }) => {
 
                     <button
                         onClick={() => {
-                            setOverlay(<OverlayOne />);
-                            onOpen();
+                            handleUser();
                         }}
                         className="bg-pink-600 text-white text-base font-medium font-['Inter'] leading-normal rounded-md px-3 lg:px-5 py-2"
                     >

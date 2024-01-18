@@ -71,7 +71,7 @@ const Header = () => {
                                 <div className='flex lg:space-x-5'>
                                     {paddingClass('Home', '/')}
                                     {paddingClass('All Toys', '/all-toys')}
-                                    {paddingClass('My Toys', '/my-toys')}
+                                    {user && paddingClass('My Toys', '/my-toys')}
                                     {paddingClass('Add A Toy', '/add-toy')}
                                 </div>
                             </div>

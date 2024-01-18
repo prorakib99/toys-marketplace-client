@@ -1,10 +1,11 @@
 import products_bg from '../../../assets/Product-Section/Product-bg.png';
 import Slider from 'react-slick/lib/slider';
 import ProductsCard from '../ProductsCard/ProductsCard';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Loader from '../../Shared/Loader/Loader';
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from '@chakra-ui/react';
 import AddToyModal from '../../Shared/AddToyModal/AddToyModal';
+import { AuthContext } from '../../../providers/AuthProvider';
 
 // Slider Config
 const settings = {
@@ -70,6 +71,8 @@ const CategoryProducts = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [isToysLoading, setIsToysLoading] = useState(false);
 
+    const { user } = useContext(AuthContext);
+
     const handleCategoryProducts = (categoryID) => {
         setIsToysLoading(true);
         fetch(`http://localhost:5000/categories/${categoryID}`)
@@ -133,7 +136,7 @@ const CategoryProducts = () => {
                             ))}
                         </TabList>
 
-                        <AddToyModal></AddToyModal>
+                        {user && <AddToyModal></AddToyModal>}
 
                         {isToysLoading ? (
                             <Loader></Loader>
