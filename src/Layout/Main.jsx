@@ -9,15 +9,19 @@ import { ToastContainer } from 'react-toastify';
 
 const Main = () => {
     const { loading } = useContext(AuthContext);
-    if (loading) {
-        return <Loader global={true}></Loader>;
-    }
+
     return (
         <>
             <ToastContainer />
-            <Header />
-            <Outlet />
-            <Footer />
+            {loading ? (
+                <Loader global={true}></Loader>
+            ) : (
+                <>
+                    <Header />
+                    <Outlet />
+                    <Footer />
+                </>
+            )}
         </>
     );
 };
