@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { IoCreateOutline } from 'react-icons/io5';
 import { Rating } from 'primereact/rating';
 import {
@@ -17,12 +17,15 @@ import {
     useDisclosure
 } from '@chakra-ui/react';
 import { toast } from 'react-toastify';
+import { AuthContext } from '../../../providers/AuthProvider';
 
 const AddToyModal = ({ addPage }) => {
     const [value, setValue] = useState(null);
     const { isOpen, onOpen, onClose } = useDisclosure({ defaultIsOpen: addPage });
     const initialRef = React.useRef(null);
     const finalRef = React.useRef(null);
+
+    const { user } = useContext(AuthContext);
 
     function handleAddNewToy(e) {
         e.preventDefault();
@@ -180,6 +183,7 @@ const AddToyModal = ({ addPage }) => {
                                         className='!text-lg'
                                         name='user'
                                         type='text'
+                                        defaultValue={user?.displayName}
                                         placeholder='User Name'
                                         required
                                     />
@@ -196,6 +200,7 @@ const AddToyModal = ({ addPage }) => {
                                         className='!text-lg'
                                         type='email'
                                         name='email'
+                                        defaultValue={user?.email}
                                         placeholder='Email'
                                         required
                                     />

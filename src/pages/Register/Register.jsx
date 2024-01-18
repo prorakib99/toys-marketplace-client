@@ -18,7 +18,7 @@ import { AuthContext } from '../../providers/AuthProvider';
 import { toast } from 'react-toastify';
 
 const Register = () => {
-    const { user, createUser } = useContext(AuthContext);
+    const { user, createUser, userProfile } = useContext(AuthContext);
 
     if (user) {
         return <Navigate to='/' replace={true}></Navigate>;
@@ -37,7 +37,11 @@ const Register = () => {
         createUser(email, password)
             .then((result) => {
                 const createdUser = result.user;
-                console.log(createdUser);
+                userProfile(createdUser, name, photo)
+                    .then(() => {})
+                    .catch((error) => {
+                        toast.error(error.message);
+                    });
                 toast.dismiss(promiseLoading);
                 toast.success(`${createdUser.email} is Successfully Registered`);
             })
