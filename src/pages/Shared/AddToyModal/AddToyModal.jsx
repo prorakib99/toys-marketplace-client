@@ -23,18 +23,17 @@ const AddToyModal = () => {
     const initialRef = React.useRef(null);
     const finalRef = React.useRef(null);
 
-    const user = true;
-
-    const handleAddNewToy = (e) => {
-        setLoading(true);
+    function handleAddNewToy(e) {
         e.preventDefault();
         const form = e.target;
         const name = form.name.value;
         const price = form.price.value;
         const picture = form.photo.value;
-        const categoryID = form.category.value;
-        const user = form.user.value;
+        const category = form.category.value.substring(2, 20);
+        const categoryID = parseInt(form.category.value[0]);
+        const seller = form.user.value;
         const email = form.email.value;
+        const stock = parseInt(form.stock.value);
         const ratings = value;
         const description = form.description.value;
 
@@ -42,27 +41,39 @@ const AddToyModal = () => {
             name,
             price,
             picture,
+            category,
             categoryID,
-            user,
+            seller,
             email,
+            stock,
             ratings,
             description
         };
-    };
-    return (
-        <div>
-            {/* Add New Toy */}
-            {user && (
-                <div className='text-center md:text-end mt-4 md:mt-0'>
-                    <Button
-                        className="!bg-pink-600 !text-white !text-base !font-medium !font-['Inter'] !leading-normal !rounded-md !px-3 !lg:px-5 !py-2"
-                        onClick={onOpen}
-                    >
-                        <IoCreateOutline className='w-8 h-6' /> Add New Toy
-                    </Button>
-                </div>
-            )}
+        console.log(newToy);
 
+        fetch('http://localhost:5000/toys', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(newToy)
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.acknowledged) {
+                    console.log('succuss');
+                }
+            });
+    }
+    return (
+        <>
+            {/* Add New Toy */}
+            <div className='text-center md:text-end mt-4 md:mt-0'>
+                <Button
+                    className="!bg-pink-600 !text-white !text-base !font-medium !font-['Inter'] !leading-normal !rounded-md !px-3 !lg:px-5 !py-2"
+                    onClick={onOpen}
+                >
+                    <IoCreateOutline className='w-8 h-6' /> Add New Toy
+                </Button>
+            </div>
             {/* Modal */}
             <Modal
                 size={'4xl'}
@@ -136,10 +147,10 @@ const AddToyModal = () => {
                                     placeholder='Select Category'
                                     required
                                 >
-                                    <option value='cars'>Cars</option>
-                                    <option value='airplanes'>Air Planes</option>
-                                    <option value='trucks'>Trucks</option>
-                                    <option value='bikes'>Bikes</option>
+                                    <option value={[1, 'Cars']}>Cars</option>
+                                    <option value={[2, 'Bikes']}>Bikes</option>
+                                    <option value={[3, 'Airplanes']}>Airplanes</option>
+                                    <option value={[4, 'Trucks']}>Trucks</option>
                                 </Select>
 
                                 <InputGroup>
@@ -185,8 +196,8 @@ const AddToyModal = () => {
                                     <Input
                                         id='stock'
                                         className='!text-lg'
-                                        type='url'
-                                        name='photo'
+                                        type='number'
+                                        name='stock'
                                         placeholder='12'
                                         required
                                     />
@@ -243,7 +254,7 @@ const AddToyModal = () => {
             </Modal>
 
             {/* Modal End */}
-        </div>
+        </>
     );
 };
 

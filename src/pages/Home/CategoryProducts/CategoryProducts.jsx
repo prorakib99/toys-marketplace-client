@@ -3,7 +3,6 @@ import Slider from 'react-slick/lib/slider';
 import ProductsCard from '../ProductsCard/ProductsCard';
 import React, { useEffect, useState } from 'react';
 import Loader from '../../Shared/Loader/Loader';
-import { IoCreateOutline } from 'react-icons/io5';
 import {
     Button,
     Input,
@@ -145,7 +144,7 @@ const CategoryProducts = () => {
                             {categories.map((category) => (
                                 <>
                                     <Tab
-                                        key={category._id}
+                                        key={category.categoryID}
                                         onClick={() => handleCategoryProducts(category.categoryID)}
                                         _selected={{ color: 'white', bg: 'pink.500' }}
                                     >

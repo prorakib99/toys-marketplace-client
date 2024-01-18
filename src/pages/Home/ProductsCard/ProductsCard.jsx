@@ -20,8 +20,19 @@ const ProductsCard = ({ toy, shopPage }) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     const [overlay, setOverlay] = React.useState(<OverlayOne />);
 
-    const { _id, name, price, categoryID, category, description, ratings, picture } = toy;
-    const stock = 0;
+    const {
+        _id,
+        name,
+        price,
+        categoryID,
+        category,
+        description,
+        seller,
+        email,
+        stock,
+        ratings,
+        picture
+    } = toy;
     return (
         <div
             className={`bg-white rounded-lg border flex flex-col ${
@@ -49,7 +60,7 @@ const ProductsCard = ({ toy, shopPage }) => {
                             </div>
                         )}
                     </div>
-                    {shopPage && (
+                    {shopPage && stock && (
                         <h2 className="text-pink-500 text-sm font-bold font-['Inter'] leading-tight">
                             {stock === 0 ? <span>Stock Out</span> : <span>Stock({stock})</span>}
                         </h2>
@@ -77,27 +88,55 @@ const ProductsCard = ({ toy, shopPage }) => {
                             <ModalCloseButton />
                             <ModalBody>
                                 <div>
-                                    <img className='w-full py-4' src={picture} alt={name} />
+                                    <img
+                                        className='md:h-80 mx-auto py-4'
+                                        src={picture}
+                                        alt={name}
+                                    />
                                     <div className='flex flex-col gap-3'>
-                                        <h6 className="text-black text-lg font-medium font-['Inter'] leading-tight">
-                                            Price:{' '}
-                                            <span className="text-pink-600 text-xl font-bold font-['Inter'] leading-tight">
-                                                ${price}
-                                            </span>
-                                        </h6>
-                                        <h6 className="text-black text-lg font-medium font-['Inter'] leading-tight flex gap-2">
-                                            Ratings:{' '}
-                                            <Rating
-                                                className='text-yellow-400 flex gap-1'
-                                                value={ratings}
-                                                readOnly
-                                                cancel={false}
-                                            />
-                                            <span className='text-base'>({ratings})</span>
-                                        </h6>
-                                        <h6 className="text-black text-lg font-medium font-['Inter'] leading-tight">
-                                            Category: <span>{category}</span>
-                                        </h6>
+                                        <div className='flex justify-between items-center'>
+                                            <h6 className="text-black text-lg font-medium font-['Inter'] leading-tight">
+                                                Price:{' '}
+                                                <span className="text-pink-600 text-xl font-bold font-['Inter'] leading-tight">
+                                                    ${price}
+                                                </span>
+                                            </h6>
+                                            {stock && (
+                                                <p className='text-pink-500 font-bold'>
+                                                    {stock === 0 ? 'Sock Out' : `Stock: ${stock}`}
+                                                </p>
+                                            )}
+                                        </div>
+                                        <div className='flex justify-between items-center'>
+                                            <h6 className="text-black text-lg font-medium font-['Inter'] leading-tight flex gap-2">
+                                                Ratings:{' '}
+                                                <Rating
+                                                    className='text-yellow-400 flex gap-1'
+                                                    value={ratings}
+                                                    readOnly
+                                                    cancel={false}
+                                                />
+                                                <span className='text-base'>({ratings})</span>
+                                            </h6>
+
+                                            {seller && (
+                                                <p className='text-base font-semibold'>
+                                                    Seller:{' '}
+                                                    <span className='font-normal'>{seller}</span>
+                                                </p>
+                                            )}
+                                        </div>
+                                        <div className=''>
+                                            <h6 className="text-black text-lg font-medium font-['Inter'] leading-tight">
+                                                Category: <span>{category}</span>
+                                            </h6>
+                                            {email && (
+                                                <p className='text-base mt-1 font-semibold'>
+                                                    Email:{' '}
+                                                    <span className='font-normal'>{email}</span>
+                                                </p>
+                                            )}
+                                        </div>
                                         <p className="text-black text-md font-normal font-['Inter'] leading-tight">
                                             <span className='font-bold'>Description: </span>
                                             <span className='leading-6'>{description}</span>
