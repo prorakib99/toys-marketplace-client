@@ -124,15 +124,13 @@ const CategoryProducts = () => {
                     <Tabs variant='soft-rounded'>
                         <TabList className='flex flex-wrap items-center !justify-center gap-5'>
                             {categories.map((category) => (
-                                <>
-                                    <Tab
-                                        key={category.categoryID}
-                                        onClick={() => handleCategoryProducts(category.categoryID)}
-                                        _selected={{ color: 'white', bg: 'pink.500' }}
-                                    >
-                                        {category.category}
-                                    </Tab>
-                                </>
+                                <Tab
+                                    key={category._id}
+                                    onClick={() => handleCategoryProducts(category.categoryID)}
+                                    _selected={{ color: 'white', bg: 'pink.500' }}
+                                >
+                                    {category.category}
+                                </Tab>
                             ))}
                         </TabList>
 
@@ -144,18 +142,16 @@ const CategoryProducts = () => {
                             <>
                                 <TabPanels className='py-8'>
                                     {categories.map((category) => (
-                                        <>
-                                            <TabPanel key={category._id}>
-                                                <Slider {...settings}>
-                                                    {toys.map((toy) => (
-                                                        <ProductsCard
-                                                            key={toy._id}
-                                                            toy={toy}
-                                                        ></ProductsCard>
-                                                    ))}
-                                                </Slider>
-                                            </TabPanel>
-                                        </>
+                                        <TabPanel key={category.categoryID}>
+                                            <Slider {...settings}>
+                                                {toys.map((toy) => (
+                                                    <ProductsCard
+                                                        key={toy._id}
+                                                        toy={toy}
+                                                    ></ProductsCard>
+                                                ))}
+                                            </Slider>
+                                        </TabPanel>
                                     ))}
                                 </TabPanels>
                             </>
