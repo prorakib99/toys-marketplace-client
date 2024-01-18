@@ -12,9 +12,40 @@ import {
 } from '@chakra-ui/react';
 import { PasswordField } from '../../pages/Shared/PasswordField/PasswordField';
 import OAuthButtonGroup from '../../pages/Shared/OAuthButtonGroup/OAuthButtonGroup';
-import { Link } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { AuthContext } from '../../providers/AuthProvider';
+import { toast } from 'react-toastify';
 
 const Register = () => {
+    const { user, createUser } = useContext(AuthContext);
+
+    if (user) {
+        return <Navigate to='/' replace={true}></Navigate>;
+    }
+
+    const handleRegister = (e) => {
+        e.preventDefault();
+        const promiseLoading = toast.loading('Account Creating');
+        () => promiseLoading();
+        const form = e.target;
+        const name = form.name.value;
+        const email = form.email.value;
+        const password = form.password.value;
+        const photo = form.photo.value;
+
+        createUser(email, password)
+            .then((result) => {
+                const createdUser = result.user;
+                console.log(createdUser);
+                toast.dismiss(promiseLoading);
+                toast.success(`${createdUser.email} is Successfully Registered`);
+            })
+            .catch((error) => {
+                toast.dismiss(promiseLoading);
+                toast.error(error.message);
+            });
+    };
     return (
         <div className='px-5'>
             <Container maxW='lg' py={{ base: '12', md: '20' }} px={{ base: '0', sm: '8' }}>
@@ -42,7 +73,7 @@ const Register = () => {
                         boxShadow={{ base: 'none', sm: 'md' }}
                         borderRadius={{ base: 'none', sm: 'xl' }}
                     >
-                        <form>
+                        <form onSubmit={handleRegister}>
                             <Stack spacing='6'>
                                 <Stack spacing='5'>
                                     <FormControl>

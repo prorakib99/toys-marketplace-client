@@ -5,13 +5,16 @@ import { RouterProvider } from 'react-router-dom';
 import router from './Routes/Routes.jsx';
 import { ChakraProvider } from '@chakra-ui/react';
 import { PrimeReactProvider } from 'primereact/api';
+import AuthProvider from './providers/AuthProvider.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <React.StrictMode>
-        <ChakraProvider>
-            <PrimeReactProvider>
-                <RouterProvider router={router} />
-            </PrimeReactProvider>
-        </ChakraProvider>
+        <AuthProvider>
+            <ChakraProvider>
+                <PrimeReactProvider>
+                    <RouterProvider router={router} />
+                </PrimeReactProvider>
+            </ChakraProvider>
+        </AuthProvider>
     </React.StrictMode>
 );

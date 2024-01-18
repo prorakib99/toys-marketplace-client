@@ -15,8 +15,33 @@ import {
 import { PasswordField } from '../Shared/PasswordField/PasswordField';
 import OAuthButtonGroup from '../Shared/OAuthButtonGroup/OAuthButtonGroup';
 import { Link } from 'react-router-dom';
+import { useContext } from 'react';
+import { AuthContext } from '../../providers/AuthProvider';
+import { toast } from 'react-toastify';
 
 const Login = () => {
+    const { loginUser } = useContext(AuthContext);
+
+    const handleSignIn = (e) => {
+        e.preventDefault();
+        const promiseLoading = toast.loading('Account Signing');
+        () => promiseLoading();
+        const form = e.target;
+        const email = form.email.value;
+        const password = form.password.value;
+
+        loginUser(email, password)
+            .then((result) => {
+                const loggedUser = result.user;
+                toast.dismiss(promiseLoading);
+                toast.success(`${loggedUser.email} is Successfully Signed In`);
+            })
+            .catch((error) => {
+                toast.dismiss(promiseLoading);
+                toast.error(error.message);
+            });
+    };
+
     return (
         <div className='px-5'>
             <Container maxW='lg' py={{ base: '12', md: '20' }} px={{ base: '0', sm: '8' }}>
@@ -44,13 +69,14 @@ const Login = () => {
                         boxShadow={{ base: 'none', sm: 'md' }}
                         borderRadius={{ base: 'none', sm: 'xl' }}
                     >
-                        <form>
+                        <form onSubmit={handleSignIn}>
                             <Stack spacing='6'>
                                 <Stack spacing='5'>
                                     <FormControl>
                                         <FormLabel htmlFor='email'>Email</FormLabel>
                                         <Input
                                             id='email'
+                                            name='email'
                                             type='email'
                                             placeholder='Enter Email'
                                             required
