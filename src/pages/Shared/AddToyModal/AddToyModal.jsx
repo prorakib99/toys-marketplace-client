@@ -53,7 +53,6 @@ const AddToyModal = ({ addPage }) => {
             ratings,
             description
         };
-        console.log(newToy);
 
         fetch('http://localhost:5000/toys', {
             method: 'POST',
@@ -63,7 +62,6 @@ const AddToyModal = ({ addPage }) => {
             .then((res) => res.json())
             .then((data) => {
                 if (data.acknowledged) {
-                    console.log('succuss');
                     onClose();
                     toast.success(`${name} has been Added`);
                 } else {
