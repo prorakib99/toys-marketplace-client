@@ -17,7 +17,7 @@ const MyToys = () => {
 
     const imageBodyTemplate = (toy) => {
         return (
-            <div className='drop-shadow-xl h-24 w-32 p-3 bg-white rounded-lg'>
+            <div className='drop-shadow-xl h-24 w-32 p-3 mx-auto bg-white rounded-lg'>
                 <img src={toy.picture} alt='' className='w-full h-full rounded-lg' />
             </div>
         );
@@ -34,10 +34,13 @@ const MyToys = () => {
     const ratingBodyTemplate = (toy) => {
         return (
             <Rating
-                className='!text-pink-500 flex gap-1'
+                className='justify-center flex gap-1'
                 value={toy.ratings}
                 readOnly
                 cancel={false}
+                pt={{
+                    onIcon: { className: 'text-pink-500' }
+                }}
             />
         );
     };
@@ -59,7 +62,7 @@ const MyToys = () => {
         return <div className='text-center py-3 text-3xl text-pink-500'>My Toys</div>;
     };
     const footer = () => {
-        return <div>In total there are 5 products.</div>;
+        return <div>In total there are {myToys.length} products.</div>;
     };
     return (
         <div className='container mx-auto px-5'>
@@ -69,14 +72,71 @@ const MyToys = () => {
                     header={header}
                     footer={footer}
                     tableStyle={{ minWidth: '60rem' }}
+                    pt={{
+                        table: { className: 'border border-blur' }
+                    }}
                 >
-                    <Column header='Image' body={imageBodyTemplate}></Column>
-                    <Column field='name' header='Name'></Column>
-                    <Column field='price' header='Price' body={priceBodyTemplate}></Column>
-                    <Column field='category' header='Category' body={categoryBodyTemplate}></Column>
-                    <Column field='rating' header='Reviews' body={ratingBodyTemplate}></Column>
-                    <Column field='edit' header='Edit' body={editBodyTemplate}></Column>
-                    <Column field='delete' header='Delete' body={deleteBodyTemplate}></Column>
+                    <Column
+                        header='Image'
+                        pt={{
+                            bodyCell: { className: 'text-center text-lg border border-blur' },
+                            headerContent: { className: 'flex justify-center' }
+                        }}
+                        body={imageBodyTemplate}
+                    ></Column>
+                    <Column
+                        field='name'
+                        pt={{
+                            bodyCell: { className: 'text-center text-lg border border-blur' },
+                            headerContent: { className: 'flex justify-center' }
+                        }}
+                        header='Name'
+                    ></Column>
+                    <Column
+                        field='price'
+                        pt={{
+                            bodyCell: { className: 'text-center text-lg border border-blur' },
+                            headerContent: { className: 'flex justify-center' }
+                        }}
+                        header='Price'
+                        body={priceBodyTemplate}
+                    ></Column>
+                    <Column
+                        field='category'
+                        pt={{
+                            bodyCell: { className: 'text-center text-lg border border-blur' },
+                            headerContent: { className: 'flex justify-center' }
+                        }}
+                        header='Category'
+                        body={categoryBodyTemplate}
+                    ></Column>
+                    <Column
+                        field='rating'
+                        pt={{
+                            bodyCell: { className: 'text-center text-lg border border-blur' },
+                            headerContent: { className: 'flex justify-center' }
+                        }}
+                        header='Reviews'
+                        body={ratingBodyTemplate}
+                    ></Column>
+                    <Column
+                        field='edit'
+                        pt={{
+                            bodyCell: { className: 'text-center text-lg border border-blur' },
+                            headerContent: { className: 'flex justify-center' }
+                        }}
+                        header='Edit'
+                        body={editBodyTemplate}
+                    ></Column>
+                    <Column
+                        field='delete'
+                        pt={{
+                            bodyCell: { className: 'text-center text-lg border border-blur' },
+                            headerContent: { className: 'flex justify-center' }
+                        }}
+                        header='Delete'
+                        body={deleteBodyTemplate}
+                    ></Column>
                 </DataTable>
             </div>
         </div>

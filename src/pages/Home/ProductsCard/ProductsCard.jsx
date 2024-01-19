@@ -65,7 +65,10 @@ const ProductsCard = ({ toy, shopPage }) => {
                         {shopPage && (
                             <div className='flex mt-1 gap-1'>
                                 <Rating
-                                    className='text-red-400 flex gap-1'
+                                    className='flex gap-1'
+                                    pt={{
+                                        onIcon: { className: 'text-pink-500' }
+                                    }}
                                     value={ratings}
                                     readOnly
                                     cancel={false}
@@ -124,7 +127,10 @@ const ProductsCard = ({ toy, shopPage }) => {
                                             <h6 className="text-black text-lg font-medium font-['Inter'] leading-tight flex gap-2">
                                                 Ratings:{' '}
                                                 <Rating
-                                                    className='text-yellow-400 flex gap-1'
+                                                    className='flex gap-1'
+                                                    pt={{
+                                                        onIcon: { className: 'text-pink-500' }
+                                                    }}
                                                     value={ratings}
                                                     readOnly
                                                     cancel={false}
