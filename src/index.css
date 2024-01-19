@@ -15,5 +15,32 @@
     display: none !important;
 }
 
-.p-datatable-table {
+/* Delete permission */
+.popup-overlay {
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.react-confirm-alert-overlay {
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.react-confirm-alert-body {
+    text-align: center !important;
+}
+
+.react-confirm-alert-body h1 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.react-confirm-alert-button-group {
+    justify-content: flex-end !important;
+}
+
+.react-confirm-alert-button-group button {
+    font-size: 16px;
+}
+
+.react-confirm-alert-button-group button:first-child {
+    background: rgb(240, 82, 82, 1);
 }
