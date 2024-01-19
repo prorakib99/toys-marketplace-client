@@ -1,3 +1,5 @@
+import React from 'react';
+import FormModal from '../Shared/FormModal/FormModal';
 import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
 import { Rating } from 'primereact/rating';
@@ -7,13 +9,36 @@ import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../providers/AuthProvider';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
+import {
+    Button,
+    Input,
+    InputGroup,
+    Modal,
+    ModalBody,
+    ModalCloseButton,
+    ModalContent,
+    ModalFooter,
+    ModalHeader,
+    ModalOverlay,
+    Select,
+    Textarea,
+    useDisclosure
+} from '@chakra-ui/react';
 
 const MyToys = () => {
     const [myToys, setMyToys] = useState([]);
+    const [selectToy, setSelectToy] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     const { user } = useContext(AuthContext);
 
     const navigate = useNavigate();
+
+    // Update Toy
+    const [value, setValue] = useState(null);
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const initialRef = React.useRef(null);
+    const finalRef = React.useRef(null);
 
     // data load
     useEffect(() => {
@@ -63,8 +88,44 @@ const MyToys = () => {
             });
     };
 
-    const handleUpdate = (_id) => {
-        console.log(_id);
+    const handleUpdateClicked = (_id) => {
+        setLoading(true);
+        setValue(null);
+        fetch(`http://localhost:5000/my-toys/${_id}`)
+            .then((res) => res.json())
+            .then((data) => {
+                setSelectToy(data);
+                setLoading(false);
+            });
+        onOpen();
+    };
+    const handleUpdate = (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const name = form.name.value;
+        const price = form.price.value;
+        const picture = form.photo.value;
+        const category = form.category.value;
+        const categoryID = form.category.options.selectedIndex;
+        const seller = form.user.value;
+        const email = form.email.value;
+        const stock = parseInt(form.stock.value);
+        const ratings = value;
+        const description = form.description.value;
+
+        const updateToy = {
+            name,
+            price,
+            picture,
+            category,
+            categoryID,
+            seller,
+            email,
+            stock,
+            ratings,
+            description
+        };
+        console.log(updateToy);
     };
 
     // Table Content
@@ -100,7 +161,7 @@ const MyToys = () => {
     const editBodyTemplate = (toy) => {
         return (
             <button
-                onClick={() => handleUpdate(toy._id)}
+                onClick={() => handleUpdateClicked(toy._id)}
                 className="text-gray-700 text-base font-medium font-['Inter'] leading-normal rounded-md"
             >
                 <FaRegEdit className='text-2xl' />
@@ -198,6 +259,22 @@ const MyToys = () => {
                     ></Column>
                 </DataTable>
             </div>
+            {/* Modal */}
+            {loading ? (
+                ''
+            ) : (
+                <FormModal
+                    initialRef={initialRef}
+                    finalRef={finalRef}
+                    isOpen={isOpen}
+                    onClose={onClose}
+                    handleUpdate={handleUpdate}
+                    setValue={setValue}
+                    value={value}
+                    toy={selectToy}
+                ></FormModal>
+            )}
+            {/* Modal End */}
         </div>
     );
 };
