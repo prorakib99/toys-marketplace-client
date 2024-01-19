@@ -46,7 +46,11 @@ const AllToys = () => {
             ) : (
                 <>
                     <div>
-                        <h3 className='text-center text-2xl mb-6'>Total Products: {total}</h3>
+                        <h3 className='text-center text-2xl mb-6'>
+                            Total Products: <span className='text-pink-500 font-bold'>{total}</span>{' '}
+                            || Showing This Page:{' '}
+                            <span className='text-pink-500 font-bold'>{toys.length}</span>
+                        </h3>
                     </div>
                     <div className='grid lg:grid-cols-4 mb-10 gap-8 md:grid-cols-2'>
                         {toys.map((toy) => (
