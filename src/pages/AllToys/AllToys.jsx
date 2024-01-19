@@ -9,28 +9,41 @@ const AllToys = () => {
     const [loading, setLoading] = useState(true);
     // Pagination
     const [total, setTotal] = useState(0);
-    const [itemsPerPage, setItemsPerPage] = useState(20);
     const [currentPage, setCurrentPage] = useState(1);
-    const onPageChange = (page) => setCurrentPage(page);
-    const totalPage = Math.ceil(total / itemsPerPage);
-
-    useEffect(() => {
+    const [searchTerm, setSearchTerm] = useState('');
+    const [totalPages, setTotalPages] = useState(1);
+    const onPageChange = (page) => {
         setLoading(true);
-        fetch('http://localhost:5000/total-toys')
-            .then((res) => res.json())
-            .then((data) => setTotal(data.total));
+        setCurrentPage(page);
+        setLoading(false);
+    };
 
-        fetch(`http://localhost:5000/toys?page=${currentPage}&limit=${itemsPerPage}`)
+    // Search
+    const handleSearch = () => {
+        setLoading(true);
+
+        fetch(`http://localhost:5000/search?searchTerm=${searchTerm}&page=${currentPage}`)
             .then((res) => res.json())
             .then((data) => {
-                setToys(data);
+                setToys(data.result);
+                setTotalPages(data.totalPages);
+                setTotal(data.totalResults);
                 setLoading(false);
-            });
-    }, [currentPage, itemsPerPage]);
+            })
+            .catch((error) => console.log(error));
+    };
+
+    useEffect(() => {
+        handleSearch();
+    }, [currentPage]);
 
     return (
         <div className='container mx-auto px-5'>
-            <SearchBar></SearchBar>
+            <SearchBar
+                handleSearch={handleSearch}
+                setSearchTerm={setSearchTerm}
+                searchTerm={searchTerm}
+            ></SearchBar>
 
             {loading ? (
                 <Loader></Loader>
@@ -44,12 +57,13 @@ const AllToys = () => {
                             <ProductsCard key={toy._id} toy={toy} shopPage={true} />
                         ))}
                     </div>
+                    {/* {searchTerms && <h3 className='text-3xl text-center'>No Result Found</h3>} */}
                 </>
             )}
             <div className='text-center mb-10'>
                 <Pagination
                     currentPage={currentPage}
-                    totalPages={totalPage}
+                    totalPages={totalPages}
                     onPageChange={onPageChange}
                 />
             </div>
