@@ -26,8 +26,6 @@ const Login = () => {
     const location = useLocation();
     const from = location.state?.from?.pathname || '/';
 
-    console.log(from);
-
     const handleSignIn = (e) => {
         e.preventDefault();
         const promiseLoading = toast.loading('Account Signing');

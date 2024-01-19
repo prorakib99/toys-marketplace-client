@@ -9,7 +9,7 @@ const Home = () => {
     return (
         <>
             <Hero />
-            <SearchBar />
+            <SearchBar homePage={true} />
             <CategoryProducts />
             <Gallery />
             <Offers />

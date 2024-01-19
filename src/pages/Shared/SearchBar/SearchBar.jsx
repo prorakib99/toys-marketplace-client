@@ -1,11 +1,15 @@
-import { useState } from 'react';
 import { CiSearch } from 'react-icons/ci';
+import { Navigate, useNavigate } from 'react-router-dom';
 
-const SearchBar = ({ handleSearch, searchTerm, setSearchTerm }) => {
-    const [enter, setEnter] = useState(false);
-
+const SearchBar = ({ handleSearch, searchTerm, setSearchTerm, homePage }) => {
+    const navigate = useNavigate();
+    const handleRedirect = () => {
+        if (homePage) {
+            return navigate('/all-toys');
+        }
+    };
     return (
-        <div className='container px-5 mx-auto py-10'>
+        <div onClick={handleRedirect} className='container px-5 mx-auto py-10'>
             <div className='grid lg:grid-cols-2 lg:w-3/4 mx-auto items-center gap-5 p-[22px] bg-pink-600 rounded-[51px] shadow'>
                 <div className='flex items-center justify-center lg:justify-start gap-5'>
                     <button

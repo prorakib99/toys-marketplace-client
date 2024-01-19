@@ -30,7 +30,6 @@ const ProductsCard = ({ toy, shopPage }) => {
             setOverlay(<OverlayOne />);
             onOpen();
         } else {
-            console.log('bello');
             return navigate('/login');
         }
     };
