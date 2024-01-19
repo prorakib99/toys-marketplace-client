@@ -12,11 +12,7 @@ const AllToys = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [searchTerm, setSearchTerm] = useState('');
     const [totalPages, setTotalPages] = useState(1);
-    const onPageChange = (page) => {
-        setLoading(true);
-        setCurrentPage(page);
-        setLoading(false);
-    };
+    const onPageChange = (page) => setCurrentPage(page);
 
     // Search
     const handleSearch = () => {
