@@ -134,7 +134,7 @@ const MyToys = () => {
             description
         };
 
-        fetch(`https://toys-marketplace-server-nine.vercel.app/my-toys/${selectToy._id}`, {
+        fetch(`https://toys-marketplace-server-nine.vercel.app/my-toys?id=${selectToy._id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(updateToy)
