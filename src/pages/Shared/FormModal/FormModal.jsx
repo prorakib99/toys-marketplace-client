@@ -73,7 +73,7 @@ const FormModal = ({
                                 <Input
                                     id='Price'
                                     className='!text-lg'
-                                    type='number'
+                                    type='text'
                                     name='price'
                                     placeholder='$'
                                     defaultValue={toy?.price}

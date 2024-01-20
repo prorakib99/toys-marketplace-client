@@ -18,7 +18,9 @@ const AllToys = () => {
     const handleSearch = () => {
         setLoading(true);
 
-        fetch(`http://localhost:5000/search?searchTerm=${searchTerm}&page=${currentPage}`)
+        fetch(
+            `https://toys-marketplace-server-nine.vercel.app/search?searchTerm=${searchTerm}&page=${currentPage}`
+        )
             .then((res) => res.json())
             .then((data) => {
                 setToys(data.result);

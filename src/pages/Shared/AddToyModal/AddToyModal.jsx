@@ -14,7 +14,7 @@ const AddToyModal = ({ addPage }) => {
         e.preventDefault();
         const form = e.target;
         const name = form.name.value;
-        const price = form.price.value;
+        const price = parseFloat(form.price.value).toFixed(2);
         const picture = form.photo.value;
         const category = form.category.value;
         const categoryID = form.category.options.selectedIndex;
@@ -23,6 +23,11 @@ const AddToyModal = ({ addPage }) => {
         const stock = parseInt(form.stock.value);
         const ratings = value;
         const description = form.description.value;
+
+        if (isNaN(price)) {
+            return alert('Price Allow only Number');
+        }
+
         const newToy = {
             name,
             price,
@@ -36,7 +41,7 @@ const AddToyModal = ({ addPage }) => {
             description
         };
 
-        fetch('http://localhost:5000/toys', {
+        fetch('https://toys-marketplace-server-nine.vercel.app/toys', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(newToy)

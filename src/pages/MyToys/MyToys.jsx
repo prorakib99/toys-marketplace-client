@@ -24,11 +24,14 @@ import {
     Textarea,
     useDisclosure
 } from '@chakra-ui/react';
+import { toast } from 'react-toastify';
+import Loader from '../Shared/Loader/Loader';
 
 const MyToys = () => {
     const [myToys, setMyToys] = useState([]);
     const [selectToy, setSelectToy] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [updateCount, setUpdateCount] = useState(0);
 
     const { user } = useContext(AuthContext);
 
@@ -42,7 +45,7 @@ const MyToys = () => {
 
     // data load
     useEffect(() => {
-        fetch(`http://localhost:5000/my-toys?email=${user?.email}`, {
+        fetch(`https://toys-marketplace-server-nine.vercel.app/my-toys?email=${user?.email}`, {
             method: 'GET',
             headers: {
                 authorization: `Bearer ${localStorage.getItem('toy-access-token')}`
@@ -52,11 +55,12 @@ const MyToys = () => {
             .then((data) => {
                 if (!data.error) {
                     setMyToys(data);
+                    setLoading(false);
                 } else {
                     return navigate('/');
                 }
             });
-    }, []);
+    }, [updateCount]);
 
     // Delete & Update
     const confirmDelete = (_id) => {
@@ -75,7 +79,7 @@ const MyToys = () => {
         });
     };
     const handleDelete = (_id) => {
-        fetch(`http://localhost:5000/my-toys/${_id}`, {
+        fetch(`https://toys-marketplace-server-nine.vercel.app/my-toys/${_id}`, {
             method: 'DELETE'
         })
             .then((res) => res.json())
@@ -91,7 +95,7 @@ const MyToys = () => {
     const handleUpdateClicked = (_id) => {
         setLoading(true);
         setValue(null);
-        fetch(`http://localhost:5000/my-toys/${_id}`)
+        fetch(`https://toys-marketplace-server-nine.vercel.app/my-toys/${_id}`)
             .then((res) => res.json())
             .then((data) => {
                 setSelectToy(data);
@@ -103,15 +107,19 @@ const MyToys = () => {
         e.preventDefault();
         const form = e.target;
         const name = form.name.value;
-        const price = form.price.value;
+        const price = parseFloat(form.price.value).toFixed(2);
         const picture = form.photo.value;
         const category = form.category.value;
         const categoryID = form.category.options.selectedIndex;
         const seller = form.user.value;
         const email = form.email.value;
         const stock = parseInt(form.stock.value);
-        const ratings = value;
+        const ratings = value || selectToy?.ratings;
         const description = form.description.value;
+
+        if (isNaN(price)) {
+            return alert('Price Allow only Number');
+        }
 
         const updateToy = {
             name,
@@ -125,7 +133,20 @@ const MyToys = () => {
             ratings,
             description
         };
-        console.log(updateToy);
+
+        fetch(`https://toys-marketplace-server-nine.vercel.app/my-toys/${selectToy._id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(updateToy)
+        })
+            .then((res) => res.json())
+            .then((data) => {
+                if (data.modifiedCount > 0) {
+                    onClose();
+                    setUpdateCount(updateCount + 1);
+                    toast.success(`Toy Update Successful`);
+                }
+            });
     };
 
     // Table Content
@@ -179,11 +200,17 @@ const MyToys = () => {
         );
     };
     const header = () => {
-        return <div className='text-center py-3 text-3xl text-pink-500'>My Toys</div>;
+        return (
+            <div className='text-center py-3 text-3xl text-pink-500'>My Toys: {myToys.length}</div>
+        );
     };
     const footer = () => {
         return <div>In total there are {myToys.length} products.</div>;
     };
+
+    if (loading) {
+        return <Loader></Loader>;
+    }
     return (
         <div className='container mx-auto px-5'>
             <div className='py-10'>

@@ -75,7 +75,7 @@ const CategoryProducts = () => {
 
     const handleCategoryProducts = (categoryID) => {
         setIsToysLoading(true);
-        fetch(`http://localhost:5000/categories/${categoryID}`)
+        fetch(`https://toys-marketplace-server-nine.vercel.app/categories/${categoryID}`)
             .then((res) => res.json())
             .then((data) => {
                 setToys(data);
@@ -86,14 +86,14 @@ const CategoryProducts = () => {
     useEffect(() => {
         setIsLoading(true);
 
-        fetch(`http://localhost:5000/categories`)
+        fetch(`https://toys-marketplace-server-nine.vercel.app/categories`)
             .then((res) => res.json())
             .then((data) => {
                 setCategories(data);
                 setIsLoading(false);
             });
 
-        fetch(`http://localhost:5000/categories/1`)
+        fetch(`https://toys-marketplace-server-nine.vercel.app/categories/1`)
             .then((res) => res.json())
             .then((data) => {
                 setToys(data);
